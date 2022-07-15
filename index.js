@@ -39,6 +39,22 @@ app.post("/addjoin", async (req,res) => {
         
 })
 
+
+//숙소 등록
+app.post("/addroom", async (req, res) => {
+
+    const {rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info} = req.body;
+
+    connection.query(
+        "INSERT INTO room(`rname`, `minp`, `maxp`, `price`, `soffer`, `amenity`, `badtype`, `radd`, `sns`, `info`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info],
+        (err,rows,fields)=>{
+            console.log(err)
+        }
+
+    )
+})
+
 //서버실행
 app.listen(port, () => {
     console.log("서버 동작 중")
