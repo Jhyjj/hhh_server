@@ -7,7 +7,7 @@ const multer = require("multer");
 
 const mysql = require('mysql');
 const fs = require("fs") // 파일을 읽어오도록 해줌
-app.use(express.static("public"));
+app.use(express.static("public")); //public이라는 폴더에 있는 파일에 접근 할 수 있도록 설정
 const dbinfo = fs.readFileSync('./database.json');
 //받아온 json데이터를 객체형태로 변경 JSON.parse
 const conf = JSON.parse(dbinfo)
@@ -45,21 +45,28 @@ app.use(cors());
 
 //이미지 저장
 const storage = multer.diskStorage({
-    destination: "./public/img/",
+    destination: function(req,res,cb){
+        cb(null, 'public/img/')
+    },
     filename: function(req, file, cb) {
-      const newFileName = file.originalname.normalize('NFKC');
-      cb(null,newFileName);
+      cb(null,file.originalname);
     }
   });
 //파일 사이즈 지정
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1000000 }
+    limits: { fileSize: 3000000 }
   });
 
 // //받아서 보내줌
-app.post("/upload", upload.single("img"), function(req, res, next) {
-  console.log(`${req.file.destination}${req.file.filename}`)  
+app.post("/upload", upload.single("image"), function(req, res, next) {
+    const file = req.file;
+    console.log(file);
+    res.send({
+        // imgurl:"http://localhost3001/"+file.destination+file.filename
+        imgurl:file.filename
+    })
+//   console.log(`${req.file.destination}${req.file.filename}`)  
   // console.log(req.file.filename);
     // res.send(req.file.filename);
     })
@@ -76,7 +83,7 @@ app.post("/addjoin", async (req,res) => {
         "insert into member(`id`, `pw`, `name`,`phone`, `add`) values (?,?,?,?,?)",
         [a_id, a_pw, a_name, a_phone, a_add],
         (err,rows,fields)=>{
-            console.log(err)
+            console.log(rows)
             res.send("등록되었습니다.")
         })
         
@@ -85,13 +92,42 @@ app.post("/addjoin", async (req,res) => {
 
 //숙소 등록
 app.post("/addroom", async (req, res) => {
-    const {rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info} = req.body;
+    const {rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info, imgurl} = req.body;
     connection.query(
-        "INSERT INTO room(`rname`, `minp`, `maxp`, `price`, `soffer`, `amenity`, `badtype`, `radd`, `sns`, `info`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info],
+        "INSERT INTO room(`rname`, `minp`, `maxp`, `price`, `soffer`, `amenity`, `badtype`, `radd`, `sns`, `info`, `imgurl`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [rname,minp, maxp, price, soffer, amenity, badtype, radd, sns, info, imgurl],
         (err,rows,fields)=>{
-            // console.log(err)
+            console.log(rows)
+            res.send("새로운 숙소 등록 완료")
         }
+    )
+})
+
+//숙소 검색
+
+//전체 출력하기
+app.get("/search", async (req,res)=>{
+    console.log(req.body);
+    connection.query(
+        "select * from room",(err,rows,fields)=>{
+            // console.log(rows);
+            res.send("검색결과 출력")
+        }
+    )
+})
+
+//검색어로 검색결과만 출력하기
+app.get("/searchKeyword/:keyword", async (req,res)=>{
+    const { keyword } = req.params
+    console.log(req)
+    console.log(keyword)
+    connection.query(
+        `select * from room where sns like '%${keyword}%'`,(err,rows,fields)=>{
+            console.log(rows);
+            console.log(err);
+            res.send("출력됨");
+        }
+
     )
 })
 
