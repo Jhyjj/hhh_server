@@ -110,8 +110,8 @@ app.get("/search", async (req,res)=>{
     console.log(req.body);
     connection.query(
         "select * from room",(err,rows,fields)=>{
-            // console.log(rows);
-            res.send("검색결과 출력")
+            console.log(rows);
+            res.send(rows);
         }
     )
 })
@@ -125,7 +125,7 @@ app.get("/searchKeyword/:keyword", async (req,res)=>{
         `select * from room where sns like '%${keyword}%'`,(err,rows,fields)=>{
             console.log(rows);
             console.log(err);
-            res.send("출력됨");
+            res.send(rows);
         }
 
     )
