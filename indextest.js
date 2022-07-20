@@ -118,14 +118,29 @@ app.get("/search", async (req,res)=>{
 
 //검색어로 검색결과만 출력하기
 app.get("/searchKeyword/:keyword", async (req,res)=>{
-    const { keyword } = req.params
     console.log(req)
+    const params = req.params
+    const {keyword} = params
     console.log(keyword)
     connection.query(
         `select * from room where sns like '%${keyword}%'`,(err,rows,fields)=>{
             console.log(rows);
             console.log(err);
-            res.send(rows);
+            res.send(rows); //결과 보내주기~~
+        }
+
+    )
+})
+
+app.post("/member", async (req,res)=>{
+    console.log(req)
+    const {id, pw} = req.body
+    // console.log(id,pw)
+    connection.query(
+        `select id,pw from member where id = '${id}'`,(err,rows,fields)=>{
+            console.log(rows);
+            console.log(err);
+            res.send(rows[0]); //결과 보내주기~~
         }
 
     )
