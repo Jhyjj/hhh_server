@@ -111,7 +111,7 @@ app.get("/search", async (req,res)=>{
     connection.query(
         "select * from room",(err,rows,fields)=>{
             // console.log(rows);
-            res.send("검색결과 출력")
+            res.send(rows)
         }
     )
 })
