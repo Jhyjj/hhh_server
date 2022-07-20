@@ -55,7 +55,7 @@ const storage = multer.diskStorage({
 //파일 사이즈 지정
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 3000000 }
+    limits: { fileSize: 30000000 }
   });
 
 // //받아서 보내줌
@@ -132,6 +132,20 @@ app.get("/searchKeyword/:keyword", async (req,res)=>{
     )
 })
 
+//숙소 상세페이지 출력하기
+app.get("/detail/:id", async (req,res)=>{
+    const params = req.params
+    console.log(req);
+    console.log(params)
+    const {id} = params
+    console.log(id)
+    connection.query(
+        `select * from room where no=${id}`,(err,rows,fields)=>{
+            console.log(rows);
+            res.send(rows);
+        })})
+
+        
 app.post("/member", async (req,res)=>{
     console.log(req)
     const {id, pw} = req.body
