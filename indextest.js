@@ -110,22 +110,23 @@ app.get("/search", async (req,res)=>{
     console.log(req.body);
     connection.query(
         "select * from room",(err,rows,fields)=>{
-            // console.log(rows);
-            res.send("검색결과 출력")
+            console.log(rows);
+            res.send(rows)
         }
     )
 })
 
 //검색어로 검색결과만 출력하기
 app.get("/searchKeyword/:keyword", async (req,res)=>{
-    const { keyword } = req.params
     console.log(req)
+    const params = req.params
+    const {keyword} = params
     console.log(keyword)
     connection.query(
         `select * from room where sns like '%${keyword}%'`,(err,rows,fields)=>{
             console.log(rows);
             console.log(err);
-            res.send("출력됨");
+            res.send(rows); //결과 보내주기~~
         }
 
     )
