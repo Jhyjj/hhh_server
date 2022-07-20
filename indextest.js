@@ -55,7 +55,7 @@ const storage = multer.diskStorage({
 //파일 사이즈 지정
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 3000000 }
+    limits: { fileSize: 30000000 }
   });
 
 // //받아서 보내줌
@@ -110,22 +110,56 @@ app.get("/search", async (req,res)=>{
     console.log(req.body);
     connection.query(
         "select * from room",(err,rows,fields)=>{
+<<<<<<< HEAD
             // console.log(rows);
             res.send(rows)
+=======
+            console.log(rows);
+            res.send(rows);
+>>>>>>> c36eedf69cdb9415e879a41733bbdcafda060286
         }
     )
 })
 
 //검색어로 검색결과만 출력하기
 app.get("/searchKeyword/:keyword", async (req,res)=>{
-    const { keyword } = req.params
     console.log(req)
+    const params = req.params
+    const {keyword} = params
     console.log(keyword)
     connection.query(
         `select * from room where sns like '%${keyword}%'`,(err,rows,fields)=>{
             console.log(rows);
             console.log(err);
-            res.send("출력됨");
+            res.send(rows); //결과 보내주기~~
+        }
+
+    )
+})
+
+//숙소 상세페이지 출력하기
+app.get("/detail/:id", async (req,res)=>{
+    const params = req.params
+    console.log(req);
+    console.log(params)
+    const {id} = params
+    console.log(id)
+    connection.query(
+        `select * from room where no=${id}`,(err,rows,fields)=>{
+            console.log(rows);
+            res.send(rows);
+        })})
+
+        
+app.post("/member", async (req,res)=>{
+    console.log(req)
+    const {id, pw} = req.body
+    // console.log(id,pw)
+    connection.query(
+        `select id,pw from member where id = '${id}'`,(err,rows,fields)=>{
+            console.log(rows);
+            console.log(err);
+            res.send(rows[0]); //결과 보내주기~~
         }
 
     )
