@@ -111,8 +111,13 @@ app.get("/search", async (req,res)=>{
     connection.query(
         "select * from room",(err,rows,fields)=>{
 <<<<<<< HEAD
+<<<<<<< HEAD
             // console.log(rows);
             res.send(rows)
+=======
+            console.log(rows);
+            res.send(rows);
+>>>>>>> c36eedf69cdb9415e879a41733bbdcafda060286
 =======
             console.log(rows);
             res.send(rows);
