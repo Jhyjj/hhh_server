@@ -111,7 +111,7 @@ app.get("/search", async (req,res)=>{
     connection.query(
         "select * from room",(err,rows,fields)=>{
             console.log(rows);
-            res.send(rows)
+            res.send(rows);
         }
     )
 })
@@ -127,6 +127,20 @@ app.get("/searchKeyword/:keyword", async (req,res)=>{
             console.log(rows);
             console.log(err);
             res.send(rows); //결과 보내주기~~
+        }
+
+    )
+})
+
+app.post("/member", async (req,res)=>{
+    console.log(req)
+    const {id, pw} = req.body
+    // console.log(id,pw)
+    connection.query(
+        `select id,pw from member where id = '${id}'`,(err,rows,fields)=>{
+            console.log(rows);
+            console.log(err);
+            res.send(rows[0]); //결과 보내주기~~
         }
 
     )
