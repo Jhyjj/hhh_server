@@ -145,7 +145,7 @@ app.get("/detail/:id", async (req,res)=>{
             res.send(rows);
         })})
 
-        
+// 로그인용 id비번확인
 app.post("/member", async (req,res)=>{
     console.log(req)
     const {id, pw} = req.body
@@ -159,6 +159,32 @@ app.post("/member", async (req,res)=>{
 
     )
 })
+
+// 예약 합니다.
+    app.post("/addbooking", async (req, res) => {
+    const {rname,radd,rsdate,edate,rbooker,rid,rphone,price,imgurl} = req.body;
+    console.log(req.body)
+    connection.query(
+        "INSERT INTO booking(`rname`, `radd`, `rsdate`, `edate`, `rbooker`, `rid`, `rphone`, `rprice`, `imgurl`) VALUES (?,?,?,?,?,?,?,?,?)",
+        [rname,radd,rsdate,edate,rbooker,rid,rphone,String(price),imgurl],
+        (err,rows,fields)=>{
+            console.log(rows)
+            console.log(err)
+            res.send("새로운 숙소 등록 완료")
+        }
+    )
+})
+
+// 예약내역가져오기
+app.get("/booking/:id", async (req,res)=>{
+    const params = req.params
+    const {id} = params
+    console.log(id)
+    connection.query(
+        `select * from booking where rid='${id}'`,(err,rows,fields)=>{
+            res.send(rows);
+        })})
+
 
 //서버실행
 app.listen(port, () => {
