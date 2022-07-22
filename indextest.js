@@ -186,6 +186,14 @@ app.get("/booking/:id", async (req,res)=>{
             res.send(rows);
         })})
 
+// 예약내역날짜회신
+app.get("/bookdate/:rooms", async (req,res)=>{
+    const params = req.params
+    const rooms = params.rooms
+    connection.query(
+        `select rsdate,edate from booking where rname='${rooms}'`,(err,rows,fields)=>{
+            res.send(rows);
+        })})
 
 //서버실행
 app.listen(port, () => {
