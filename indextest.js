@@ -55,18 +55,19 @@ const storage = multer.diskStorage({
 //파일 사이즈 지정
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 3000000 }
+    limits: { fileSize: 30000000 }
   });
 
 // //받아서 보내줌
-app.post("/upload", upload.single("image"), function(req, res, next) {
+app.post("/upload", upload.array("image"), function(req, res) {
     const file = req.file;
     const fileList = req.files;
     console.log(fileList);
-    res.send({
-        // imgurl:"http://localhost3001/"+file.destination+file.filename
-        imgurl:file.filename
-    })
+    res.send({fileList});
+    // res.send({
+    //     // imgurl:"http://localhost3001/"+file.destination+file.filename
+    //     imgurl:fileList
+    // })
 //   console.log(`${req.file.destination}${req.file.filename}`)  
   // console.log(req.file.filename);
     // res.send(req.file.filename);
