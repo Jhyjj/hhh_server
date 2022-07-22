@@ -55,13 +55,14 @@ const storage = multer.diskStorage({
 //파일 사이즈 지정
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 30000000 }
+    limits: { fileSize: 3000000 }
   });
 
 // //받아서 보내줌
 app.post("/upload", upload.single("image"), function(req, res, next) {
     const file = req.file;
-    console.log(file);
+    const fileList = req.files;
+    console.log(fileList);
     res.send({
         // imgurl:"http://localhost3001/"+file.destination+file.filename
         imgurl:file.filename
