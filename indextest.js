@@ -59,13 +59,15 @@ const upload = multer({
   });
 
 // //받아서 보내줌
-app.post("/upload", upload.single("image"), function(req, res, next) {
+app.post("/upload", upload.array("image"), function(req, res) {
     const file = req.file;
-    console.log(file);
-    res.send({
-        // imgurl:"http://localhost3001/"+file.destination+file.filename
-        imgurl:file.filename
-    })
+    const fileList = req.files;
+    console.log(fileList);
+    res.send({fileList});
+    // res.send({
+    //     // imgurl:"http://localhost3001/"+file.destination+file.filename
+    //     imgurl:fileList
+    // })
 //   console.log(`${req.file.destination}${req.file.filename}`)  
   // console.log(req.file.filename);
     // res.send(req.file.filename);
