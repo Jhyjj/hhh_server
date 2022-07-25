@@ -168,11 +168,11 @@ app.post("/member", async (req,res)=>{
     console.log(req.body)
     connection.query(
         "INSERT INTO booking(`rname`, `radd`, `rsdate`, `edate`, `rbooker`, `rid`, `rphone`, `rprice`, `imgurl`) VALUES (?,?,?,?,?,?,?,?,?)",
-        [rname,radd,rsdate,edate,rbooker,rid,rphone,String(price),imgurl],
+        [rname,radd,rsdate,edate,rbooker,rid,rphone,price,imgurl],
         (err,rows,fields)=>{
             console.log(rows)
             console.log(err)
-            res.send("새로운 숙소 등록 완료")
+            res.send(err)
         }
     )
 })
