@@ -1,8 +1,8 @@
 
 {
-    "host":"hhhdb.ccj7acommnvs.us-west-1.rds.amazonaws.com",
-    "user":"admin",
-    "password":"admin1234",
+     "host":"localhost",
+    "user":"root",
+    "password":"3768",
     "port":"3306",
-    "database":"hhhdatabase"
+    "database":"hhh_localserver"
 }
