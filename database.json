@@ -1,8 +1,8 @@
 
 {
-     "host":"localhost",
-    "user":"root",
-    "password":"3768",
+    "host":"mm2-shopping-server.cnty0v9kkqi2.us-west-1.rds.amazonaws.com",
+    "user":"admin",
+    "password":"admin1234",
     "port":"3306",
-    "database":"hhh_localserver"
+    "database":"mm2shopping"
 }
